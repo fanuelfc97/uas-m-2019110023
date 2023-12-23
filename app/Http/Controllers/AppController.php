@@ -14,11 +14,14 @@ class AppController extends Controller
     {
         $accounts = Account::all();
         $transactions = Transaction::all();
+        $totalTransactions = Transaction::count();
+        $totalAccounts = Account::count();
+
 
         $categoryCounts = Transaction::groupBy('kategori')
         ->selectRaw('count(*) as count, kategori')
         ->pluck('count', 'kategori');
 
-    return view('index', compact('accounts', 'transactions', 'categoryCounts'));
+    return view('index', compact('totalAccounts','totalTransactions','accounts', 'transactions', 'categoryCounts'));
 }
 }
