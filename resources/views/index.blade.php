@@ -10,48 +10,37 @@
       </h1>
     </section>
     <section class="content">
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>{{ $totalTransactions }}</h3>
-                        <p>Total Transaction</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-shopping-cart"></i>
-                    </div>
-                    <a href="{{ route('transactions.index') }}" class="small-box-footer">
-                        More info <i class="fa fa-arrow-circle-right"></i>
-                    </a>
-                </div>
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{{ $totalTransactions }}</h3>
+              <p>Total Transaction</p>
             </div>
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>{{ $totalAccounts }}</h3>
-                        <p>User Registered</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="{{ route('accounts.index') }}" class="small-box-footer">
-                        More info <i class="fa fa-arrow-circle-right"></i>
-                    </a>
-                </div>
+            <div class="icon">
+              <i class="fa fa-shopping-cart"></i>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-              <div class="box box-success">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Transaction Categories Chart</h3>
-                </div>
-                <div class="box-body">
-                  <canvas id="categoryChart" style="height: 250px;"></canvas>
-                </div>
-              </div>
-            </div>
+            <a href="{{ route('transactions.index') }}" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
           </div>
+        </div>
+        <div class="col-lg-3 col-xs-6">
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{ $totalAccounts }}</h3>
+              <p>User Registered</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="{{ route('accounts.index') }}" class="small-box-footer">
+              More info <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-6">
           <div class="box box-primary">
@@ -69,7 +58,7 @@
                     <strong>Name:</strong> {{ $account->nama }}<br>
                     <strong>Type:</strong> {{ $account->jenis }}<br>
                     <strong>Created At:</strong> {{ $account->created_at }}<br>
-                    <a href="{{ route('accounts.edit', $account) }}" class="btn btn-success btn-sm">Edit</a>
+                    <a href="{{ route('accounts.edit', $account->id) }}" class="btn btn-success btn-sm">Edit</a>
                   </div>
                 </div>
               @empty
@@ -80,6 +69,7 @@
             </div>
           </div>
         </div>
+
         <div class="col-md-6">
           <div class="box box-primary">
             <div class="box-header with-border">
@@ -96,7 +86,7 @@
                     <strong>Amount:</strong> {{ number_format($transaction->nominal, 2) }} Rupiah<br>
                     <strong>Category:</strong> {{ $transaction->kategori }}<br>
                     <strong>Created At:</strong> {{ $transaction->created_at }}<br>
-                    <a href="{{ route('transactions.destroy', $transaction) }}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{{ route('transactions.destroy', $transaction->id) }}" class="btn btn-danger btn-sm">Delete</a>
                   </div>
                 </div>
               @empty
@@ -110,37 +100,8 @@
       </div>
     </section>
   </div>
-
   <script>
     $(function () {
-      // Data for the chart
-      var categories = @json($categoryCounts->keys());
-      var data = @json($categoryCounts->values());
-
-
-      // Chart.js
-      var categoryChartCanvas = $('#categoryChart').get(0).getContext('2d');
-      var categoryChartData = {
-        labels: categories,
-        datasets: [
-          {
-            label: 'Transaction Categories',
-            data: data,
-            backgroundColor: '#00a65a',
-          },
-        ],
-      };
-      var categoryChartOptions = {
-        maintainAspectRatio: false,
-        responsive: true,
-      };
-
-      // Create the bar chart
-      new Chart(categoryChartCanvas, {
-        type: 'bar',
-        data: categoryChartData,
-        options: categoryChartOptions,
-      });
-    });
-  </script>
+      var accounts = @json($accountCounts->keys());
+      var accountData = @json($accountCounts->values());})
 @endsection

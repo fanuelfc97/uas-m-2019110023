@@ -18,10 +18,12 @@ class AppController extends Controller
         $totalAccounts = Account::count();
 
 
+        $accountCounts = Transaction::groupBy('account_id')->selectRaw('count(*) as count, account_id')
+        ->pluck('count', 'account_id');
         $categoryCounts = Transaction::groupBy('kategori')
         ->selectRaw('count(*) as count, kategori')
         ->pluck('count', 'kategori');
 
-    return view('index', compact('totalAccounts','totalTransactions','accounts', 'transactions', 'categoryCounts'));
+    return view('index', compact('totalAccounts','totalTransactions','accounts', 'transactions','accountCounts', 'categoryCounts'));
 }
 }
